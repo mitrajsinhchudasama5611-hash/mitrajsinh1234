@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CipherGuard — Password Security Suite</title>
+<link rel="stylesheet" href="styles.css" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="logo-icon">🔐</div>
+    Cipher<span>Guard</span>
+  </div>
+  <div class="nav-links">
+    <button class="nav-link active" onclick="showPage('home')">Home</button>
+    <button class="nav-link" onclick="showPage('checker')">Checker</button>
+    <button class="nav-link" onclick="showPage('generator')">Generator</button>
+    <button class="nav-link" onclick="showPage('compare')">Compare</button>
+    <button class="nav-link" onclick="showPage('tips')">Tips</button>
+    <button class="nav-link" onclick="showPage('about')">About</button>
+    <button class="nav-link" onclick="showPage('hash')" style="color:var(--accent2);border:1px solid rgba(124,58,237,.25)">🔢 Hash</button>
+  </div>
+  <div class="nav-right">
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav">
+  <button class="mob-link active" onclick="showPage('home')"><span class="icon">🏠</span>Home</button>
+  <button class="mob-link" onclick="showPage('checker')"><span class="icon">🔍</span>Check</button>
+  <button class="mob-link" onclick="showPage('generator')"><span class="icon">⚡</span>Gen</button>
+  <button class="mob-link" onclick="showPage('compare')"><span class="icon">⚖️</span>Compare</button>
+  <button class="mob-link" onclick="showPage('tips')"><span class="icon">💡</span>Tips</button>
+  <button class="mob-link" onclick="showPage('about')"><span class="icon">ℹ️</span>About</button>
+  <button class="mob-link" onclick="showPage('hash')"><span class="icon">🔢</span>Hash</button>
+</nav>
+
+<!-- ═══ PAGE 1: HOME ═══ -->
+<div class="page active" id="page-home">
+  <section class="home-hero">
+    <canvas id="matrixCanvas"></canvas>
+    <div class="hero-content">
+      <div class="hero-badge"><span class="badge-dot"></span>Cybersecurity Project</div>
+      <h1 class="hero-title">
+        <span class="line1">Protect Your</span>
+        <span class="line2">Digital Identity</span>
+      </h1>
+      <p class="hero-sub">Advanced password analysis with real-time strength detection, entropy calculation, breach checking, AI-powered improvement suggestions, and passphrase generation.</p>
+      <!-- Live attack ticker -->
+      <div class="attack-ticker" id="attackTicker">
+        <span class="ticker-label">⚡ Attack</span>
+        <span class="ticker-pass" id="tickerPass">Initializing...</span>
+      </div>
+      <div class="hero-ctas">
+        <button class="btn-primary" onclick="showPage('checker')">Analyze Password →</button>
+        <button class="btn-secondary" onclick="showPage('generator')">Generate Strong Password</button>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-num">81%</div>
+          <div class="stat-label">Breaches from<br>weak passwords</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3s</div>
+          <div class="stat-label">To crack a<br>6-char password</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">15B+</div>
+          <div class="stat-label">Stolen credentials<br>on the dark web</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Analysis done<br>locally (private)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="features-section">
+    <div class="section-eyebrow">What We Offer</div>
+    <h2 class="section-title">Everything You Need</h2>
+    <p class="section-sub">Comprehensive password security tools designed for modern cyber threats.</p>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-icon" style="background:rgba(0,229,255,.12)">📊</div>
+        <h3>Real-Time Strength Meter</h3>
+        <p>Instant visual feedback with color-coded bars, live strength timeline chart, and detailed metrics as you type.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:rgba(124,58,237,.12)">🧮</div>
+        <h3>Entropy Calculation</h3>
+        <p>Mathematical randomness analysis using Shannon entropy to quantify exactly how unpredictable your password is.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:rgba(16,185,129,.12)">⏱️</div>
+        <h3>Crack Time Estimate</h3>
+        <p>Realistic estimates of how long it would take an attacker using modern hardware to brute-force your password.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:rgba(239,68,68,.12)">🚨</div>
+        <h3>Breach Detection</h3>
+        <p>Check if your password appears in known data breach databases and common password lists used by attackers.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:rgba(245,158,11,.12)">⚡</div>
+        <h3>Passphrase Generator</h3>
+        <p>Generate memorable multi-word passphrases with custom separators — easy to remember, hard to crack.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:rgba(0,229,255,.12)">⚖️</div>
+        <h3>Password Comparison</h3>
+        <p>Side-by-side analysis of two passwords to see which is stronger and exactly how they differ in security metrics.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:rgba(124,58,237,.12)">🤖</div>
+        <h3>AI Security Tips</h3>
+        <p>Get personalized, AI-generated security advice based on your specific password's weaknesses.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:rgba(16,185,129,.12)">📥</div>
+        <h3>Export Report</h3>
+        <p>Download a detailed security analysis report for your password — great for documentation and audits.</p>
+      </div>
+      <div class="feat-card" style="border-color:rgba(124,58,237,.25);background:linear-gradient(135deg,var(--bg2),rgba(124,58,237,.04))">
+        <div class="feat-icon" style="background:rgba(124,58,237,.15)">🔢</div>
+        <h3>Hash Visualizer <span style="font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:100px;background:rgba(124,58,237,.18);color:#a78bfa;margin-left:4px;vertical-align:middle">NEW</span></h3>
+        <p>See your password transformed into SHA-256 & MD5 cryptographic hashes in real-time. Watch every character change ripple through the entire hash — a live window into how hashing algorithms protect data.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══ PAGE 2: CHECKER ═══ -->
+<div class="page" id="page-checker">
+  <div class="checker-wrap">
+    <div class="page-header">
+      <div class="section-eyebrow">Module 02</div>
+      <h1>Password Checker</h1>
+      <p>Enter any password for deep security analysis. Everything runs locally — your password never leaves your device.</p>
+    </div>
+
+    <!-- Score Ring -->
+    <div class="score-section" id="scoreSection" style="display:none">
+      <div class="score-ring-wrap">
+        <svg class="score-ring" viewBox="0 0 80 80" width="90" height="90">
+          <circle class="score-ring-bg" cx="40" cy="40" r="34"/>
+          <circle class="score-ring-fill" id="scoreRingFill" cx="40" cy="40" r="34"
+            stroke-dasharray="213.6" stroke-dashoffset="213.6" stroke="var(--accent)"/>
+        </svg>
+        <div class="score-num" id="scoreNum">0</div>
+      </div>
+      <div class="score-info">
+        <h3 id="scoreTitle">No Password</h3>
+        <p id="scoreDesc">Enter a password above to receive your security score and detailed analysis.</p>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="checker-card">
+      <div class="input-group">
+        <label>Your Password</label>
+        <div class="password-input-wrap">
+          <input type="password" class="password-input" id="passwordInput"
+            placeholder="Enter password to analyze…"
+            oninput="analyzePassword(this.value)" autocomplete="new-password" />
+          <button class="toggle-vis" onclick="toggleVisibility('passwordInput',this)" title="Toggle visibility">👁️</button>
+        </div>
+      </div>
+
+      <!-- Strength Bar -->
+      <div class="strength-section">
+        <div class="strength-label-row">
+          <span class="strength-label">Strength</span>
+          <span class="strength-value" id="strengthLabel">—</span>
+        </div>
+        <div class="strength-bar-track">
+          <div class="strength-bar-fill" id="strengthBar"></div>
+        </div>
+        <!-- Strength Timeline -->
+        <div class="timeline-wrap" id="timelineWrap">
+          <h4>Strength Timeline (as you type)</h4>
+          <canvas id="timelineCanvas" height="60"></canvas>
+        </div>
+      </div>
+
+      <!-- Metrics -->
+      <div class="metrics-grid" id="metricsGrid">
+        <div class="metric-tile">
+          <div class="m-val" id="metLength">0</div>
+          <div class="m-lbl">Length</div>
+        </div>
+        <div class="metric-tile">
+          <div class="m-val" id="metEntropy">0</div>
+          <div class="m-lbl">Entropy (bits)</div>
+        </div>
+        <div class="metric-tile">
+          <div class="m-val" id="metScore">0/100</div>
+          <div class="m-lbl">Security Score</div>
+        </div>
+        <div class="metric-tile">
+          <div class="m-val" id="metVariety">0</div>
+          <div class="m-lbl">Char Types</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Requirements -->
+    <div class="checker-card">
+      <h3 style="font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);margin-bottom:16px;font-weight:600">Requirements</h3>
+      <ul class="req-list" id="reqList">
+        <li class="req-item" id="req-length"><span class="req-dot"></span>Minimum 8 characters</li>
+        <li class="req-item" id="req-upper"><span class="req-dot"></span>Uppercase letter (A-Z)</li>
+        <li class="req-item" id="req-lower"><span class="req-dot"></span>Lowercase letter (a-z)</li>
+        <li class="req-item" id="req-number"><span class="req-dot"></span>Number (0-9)</li>
+        <li class="req-item" id="req-special"><span class="req-dot"></span>Special character (!@#$…)</li>
+        <li class="req-item" id="req-maxlen"><span class="req-dot"></span>Not exceeding 128 chars</li>
+      </ul>
+    </div>
+
+    <!-- Advanced Security -->
+    <div class="checker-card">
+      <h3 style="font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);margin-bottom:16px;font-weight:600">Advanced Security Analysis</h3>
+      <div class="adv-row">
+        <div class="adv-tile" id="breachTile">
+          <h4>Breach Status</h4>
+          <div class="adv-val" id="breachVal">Enter password</div>
+        </div>
+        <div class="adv-tile" id="crackTile">
+          <h4>Estimated Crack Time</h4>
+          <div class="adv-val" id="crackVal">—</div>
+        </div>
+        <div class="adv-tile" id="patternTile">
+          <h4>Pattern Detection</h4>
+          <div class="adv-val" id="patternVal">—</div>
+        </div>
+        <div class="adv-tile" id="dictTile">
+          <h4>Dictionary Check</h4>
+          <div class="adv-val" id="dictVal">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Tip Box -->
+    <div class="ai-tip-box" id="aiTipBox" style="display:none">
+      <div class="ai-tip-header">
+        <h4>🤖 AI Security Advisor</h4>
+        <span class="ai-chip">Powered by Claude</span>
+      </div>
+      <div class="ai-tip-text" id="aiTipText">Click "Get AI Tip" to receive personalized security advice for your password.</div>
+      <button class="ai-tip-btn" id="aiTipBtn" onclick="getAITip()">✨ Get AI Tip</button>
+    </div>
+
+    <!-- Suggestions -->
+    <div class="suggestions-box" id="suggestionsBox" style="display:none">
+      <h4>💡 Improvement Suggestions</h4>
+      <div id="suggestionsList"></div>
+    </div>
+
+    <!-- Score Section -->
+    <div id="scoreSection2" style="display:none">
+      <div class="score-section">
+        <div class="score-ring-wrap">
+          <svg class="score-ring" viewBox="0 0 80 80" width="90" height="90">
+            <circle class="score-ring-bg" cx="40" cy="40" r="34"/>
+            <circle class="score-ring-fill" id="scoreRingFill2" cx="40" cy="40" r="34"
+              stroke-dasharray="213.6" stroke-dashoffset="213.6" stroke="var(--accent)"/>
+          </svg>
+          <div class="score-num" id="scoreNum2">0</div>
+        </div>
+        <div class="score-info">
+          <h3 id="scoreTitle2">—</h3>
+          <p id="scoreDesc2"></p>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <button class="export-btn" onclick="exportReport()">📥 Download Report</button>
+        <button class="export-btn" onclick="showPage('compare')" style="border-color:var(--border)">⚖️ Compare Passwords</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ PAGE 3: GENERATOR ═══ -->
+<div class="page" id="page-generator">
+  <div class="gen-wrap">
+    <div class="page-header">
+      <div class="section-eyebrow">Module 03</div>
+      <h1>Password Generator</h1>
+      <p>Generate cryptographically secure passwords or memorable passphrases. All generation happens locally.</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="gen-tabs">
+      <button class="gen-tab active" onclick="switchGenTab('random',this)">🔒 Random Password</button>
+      <button class="gen-tab" onclick="switchGenTab('passphrase',this)">📖 Passphrase</button>
+    </div>
+
+    <!-- Random Password Panel -->
+    <div class="gen-panel active" id="panel-random">
+      <div class="gen-card">
+        <h3 style="font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);margin-bottom:14px;font-weight:600">Generated Password</h3>
+        <div class="gen-output-wrap">
+          <textarea class="gen-output" id="genOutput" readonly placeholder="Click Generate →"></textarea>
+          <button class="copy-btn" id="copyBtn" onclick="copyGenerated()" title="Copy to clipboard">📋</button>
+        </div>
+        <div id="genStrengthBar" style="display:none">
+          <div class="strength-label-row" style="margin-bottom:8px">
+            <span class="strength-label" style="font-size:.75rem">Generated Password Strength</span>
+            <span class="strength-value" id="genStrLabel" style="font-size:.85rem"></span>
+          </div>
+          <div class="strength-bar-track"><div class="strength-bar-fill" id="genStrBar"></div></div>
+        </div>
+      </div>
+
+      <div class="gen-card">
+        <h3 style="font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);margin-bottom:20px;font-weight:600">Options</h3>
+        <div class="gen-options">
+          <div class="range-group">
+            <label>Password Length <span id="lengthVal">16</span> characters</label>
+            <input type="range" id="lengthSlider" min="8" max="64" value="16"
+              oninput="document.getElementById('lengthVal').textContent=this.value" />
+          </div>
+          <div>
+            <label style="font-size:.8rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:10px">Character Types</label>
+            <div class="checkbox-grid">
+              <label class="check-item checked-item" id="lbl-upper">
+                <input type="checkbox" id="cb-upper" checked onchange="updateCheckStyle('cb-upper','lbl-upper')"> Uppercase (A-Z)
+              </label>
+              <label class="check-item checked-item" id="lbl-lower">
+                <input type="checkbox" id="cb-lower" checked onchange="updateCheckStyle('cb-lower','lbl-lower')"> Lowercase (a-z)
+              </label>
+              <label class="check-item checked-item" id="lbl-num">
+                <input type="checkbox" id="cb-num" checked onchange="updateCheckStyle('cb-num','lbl-num')"> Numbers (0-9)
+              </label>
+              <label class="check-item checked-item" id="lbl-sym">
+                <input type="checkbox" id="cb-sym" checked onchange="updateCheckStyle('cb-sym','lbl-sym')"> Symbols (!@#$…)
+              </label>
+              <label class="check-item" id="lbl-amb">
+                <input type="checkbox" id="cb-amb" onchange="updateCheckStyle('cb-amb','lbl-amb')"> Exclude Ambiguous (0,O,l,1)
+              </label>
+              <label class="check-item" id="lbl-pro">
+                <input type="checkbox" id="cb-pro" onchange="updateCheckStyle('cb-pro','lbl-pro')"> Pronounceable Words
+              </label>
+            </div>
+          </div>
+        </div>
+        <button class="gen-btn" onclick="generatePassword()">⚡ Generate Secure Password</button>
+      </div>
+    </div>
+
+    <!-- Passphrase Panel -->
+    <div class="gen-panel" id="panel-passphrase">
+      <div class="gen-card">
+        <h3 style="font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);margin-bottom:14px;font-weight:600">Generated Passphrase</h3>
+        <div class="gen-output-wrap">
+          <textarea class="gen-output" id="ppOutput" readonly placeholder="Click Generate →" style="color:var(--accent3)"></textarea>
+          <button class="copy-btn" id="ppCopyBtn" onclick="copyPassphrase()" title="Copy to clipboard">📋</button>
+        </div>
+        <!-- Word pills -->
+        <div class="pp-word-pills" id="ppPills"></div>
+        <div id="ppStrengthBar" style="display:none;margin-top:16px">
+          <div class="strength-label-row" style="margin-bottom:8px">
+            <span class="strength-label" style="font-size:.75rem">Passphrase Strength</span>
+            <span class="strength-value" id="ppStrLabel" style="font-size:.85rem"></span>
+          </div>
+          <div class="strength-bar-track"><div class="strength-bar-fill" id="ppStrBar"></div></div>
+        </div>
+      </div>
+      <div class="gen-card">
+        <h3 style="font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);margin-bottom:20px;font-weight:600">Passphrase Options</h3>
+        <div class="gen-options">
+          <div class="range-group">
+            <label>Number of Words <span id="ppWordCount">4</span></label>
+            <input type="range" id="ppWordSlider" min="3" max="8" value="4"
+              oninput="document.getElementById('ppWordCount').textContent=this.value" />
+          </div>
+          <div>
+            <label style="font-size:.8rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:10px">Separator</label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="pp-sep-btn active" onclick="setPPSep('-',this)">Dash  ( - )</button>
+              <button class="pp-sep-btn" onclick="setPPSep('.',this)">Dot  ( . )</button>
+              <button class="pp-sep-btn" onclick="setPPSep('_',this)">Underscore ( _ )</button>
+              <button class="pp-sep-btn" onclick="setPPSep(' ',this)">Space</button>
+              <button class="pp-sep-btn" onclick="setPPSep('',this)">None</button>
+            </div>
+          </div>
+          <label class="check-item" id="lbl-ppnum" style="width:fit-content">
+            <input type="checkbox" id="cb-ppnum" onchange="updateCheckStyle('cb-ppnum','lbl-ppnum')"> Add random number at end
+          </label>
+          <label class="check-item" id="lbl-ppcap" style="width:fit-content">
+            <input type="checkbox" id="cb-ppcap" checked onchange="updateCheckStyle('cb-ppcap','lbl-ppcap')"> Capitalize each word
+          </label>
+        </div>
+        <button class="gen-btn" style="background:linear-gradient(135deg,var(--accent3),#059669)" onclick="generatePassphrase()">📖 Generate Passphrase</button>
+      </div>
+    </div>
+
+    <!-- History (shared) -->
+    <div class="gen-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <h3 style="font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);font-weight:600">Password History</h3>
+        <button onclick="clearHistory()" style="font-size:.75rem;color:var(--danger);background:none;border:none;cursor:pointer">Clear All</button>
+      </div>
+      <div class="history-list" id="historyList">
+        <div class="empty-history">No passwords generated yet. Click Generate above!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE 3b: COMPARE ═══ -->
+<div class="page" id="page-compare">
+  <div class="compare-wrap">
+    <div class="page-header">
+      <div class="section-eyebrow">Module 04</div>
+      <h1>Password Comparison</h1>
+      <p>Enter two passwords side-by-side to compare their strength, entropy, and security metrics.</p>
+    </div>
+
+    <div class="compare-cols">
+      <div class="cmp-card">
+        <h3>Password A</h3>
+        <div class="password-input-wrap">
+          <input type="password" class="password-input" id="cmpInputA"
+            placeholder="Enter first password…"
+            oninput="comparePasswords()" autocomplete="new-password" />
+          <button class="toggle-vis" onclick="toggleVisibility('cmpInputA',this)">👁️</button>
+        </div>
+        <div class="cmp-bar-row" id="cmpBarA" style="display:none">
+          <div class="cmp-bar-track"><div class="cmp-bar-fill" id="cmpFillA"></div></div>
+          <div class="cmp-label" id="cmpLblA">—</div>
+        </div>
+      </div>
+      <div class="cmp-card">
+        <h3>Password B</h3>
+        <div class="password-input-wrap">
+          <input type="password" class="password-input" id="cmpInputB"
+            placeholder="Enter second password…"
+            oninput="comparePasswords()" autocomplete="new-password" />
+          <button class="toggle-vis" onclick="toggleVisibility('cmpInputB',this)">👁️</button>
+        </div>
+        <div class="cmp-bar-row" id="cmpBarB" style="display:none">
+          <div class="cmp-bar-track"><div class="cmp-bar-fill" id="cmpFillB"></div></div>
+          <div class="cmp-label" id="cmpLblB">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cmp-result" id="cmpResult" style="display:none">
+      <h3 id="cmpVerdict">—</h3>
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Password A</th>
+            <th>Password B</th>
+          </tr>
+        </thead>
+        <tbody id="cmpTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE 4: TIPS ═══ -->
+<div class="page" id="page-tips">
+  <div class="tips-wrap">
+    <div class="page-header">
+      <div class="section-eyebrow">Module 05</div>
+      <h1>Security Tips</h1>
+      <p>Expert-backed guidance to protect your digital accounts and personal information online.</p>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip-card" style="--accent-card:var(--accent)">
+        <div class="tip-num">TIP — 01</div>
+        <h3>🔑 Use a Unique Password for Every Account</h3>
+        <p>Reusing passwords is one of the biggest security mistakes. If one account is breached, attackers try the same credentials everywhere (credential stuffing).</p>
+        <ul>
+          <li>Use a password manager to store unique passwords</li>
+          <li>Never reuse passwords across important accounts</li>
+          <li>Treat your email password as the most critical</li>
+        </ul>
+      </div>
+      <div class="tip-card" style="--accent-card:var(--accent2)">
+        <div class="tip-num">TIP — 02</div>
+        <h3>🎲 Embrace Passphrases</h3>
+        <p>A passphrase like "correct-horse-battery-staple" is both memorable and highly secure — far better than "P@ssw0rd!" which is actually predictable.</p>
+        <ul>
+          <li>4+ random words is stronger than complex short passwords</li>
+          <li>Add numbers or symbols between words for extra security</li>
+          <li>Avoid common phrases, song lyrics, or quotes</li>
+        </ul>
+      </div>
+      <div class="tip-card" style="--accent-card:var(--accent3)">
+        <div class="tip-num">TIP — 03</div>
+        <h3>📱 Enable Two-Factor Authentication</h3>
+        <p>Even if your password is compromised, 2FA prevents unauthorized access by requiring a second verification step.</p>
+        <ul>
+          <li>Use authenticator apps over SMS when possible</li>
+          <li>Hardware keys (YubiKey) are the gold standard</li>
+          <li>Always save backup codes securely</li>
+        </ul>
+      </div>
+      <div class="tip-card" style="--accent-card:var(--warn)">
+        <div class="tip-num">TIP — 04</div>
+        <h3>🔒 Use a Password Manager</h3>
+        <p>Password managers generate, store, and autofill strong unique passwords. You only need to remember one master password.</p>
+        <ul>
+          <li>Bitwarden (open source, free), 1Password, Dashlane</li>
+          <li>Never store passwords in plain text files or browsers</li>
+          <li>Enable biometric unlock for convenience + security</li>
+        </ul>
+      </div>
+      <div class="tip-card" style="--accent-card:var(--accent)">
+        <div class="tip-num">TIP — 05</div>
+        <h3>🚨 Monitor for Breaches</h3>
+        <p>Set up breach monitoring to be alerted when your credentials appear in compromised databases. Act fast when alerted.</p>
+        <ul>
+          <li>Check haveibeenpwned.com regularly</li>
+          <li>Enable Google/Firefox breach alerts</li>
+          <li>Change compromised passwords immediately</li>
+        </ul>
+      </div>
+      <div class="tip-card" style="--accent-card:var(--accent2)">
+        <div class="tip-num">TIP — 06</div>
+        <h3>📏 Aim for Length Over Complexity</h3>
+        <p>Password length has more impact on security than complexity. A 20-character lowercase password beats a 10-character "complex" one every time.</p>
+        <ul>
+          <li>Minimum 12 characters for regular accounts</li>
+          <li>16+ characters for financial/email accounts</li>
+          <li>20+ characters for master passwords</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="danger-section">
+      <h3>🚫 Never Use These Passwords</h3>
+      <p style="font-size:.875rem;color:var(--text2);margin-bottom:16px">These are the most commonly used passwords — attackers check these first in every attack:</p>
+      <div class="danger-grid">
+        <div class="bad-pass">🚫 123456</div>
+        <div class="bad-pass">🚫 password</div>
+        <div class="bad-pass">🚫 qwerty</div>
+        <div class="bad-pass">🚫 abc123</div>
+        <div class="bad-pass">🚫 111111</div>
+        <div class="bad-pass">🚫 password1</div>
+        <div class="bad-pass">🚫 admin</div>
+        <div class="bad-pass">🚫 iloveyou</div>
+        <div class="bad-pass">🚫 123456789</div>
+        <div class="bad-pass">🚫 letmein</div>
+        <div class="bad-pass">🚫 monkey</div>
+        <div class="bad-pass">🚫 [your name]</div>
+      </div>
+    </div>
+
+    <!-- Security Quiz -->
+    <div class="quiz-section">
+      <h3>🧠 Security Quiz</h3>
+      <p class="quiz-sub">Test your password security knowledge with these questions!</p>
+      <div id="quizContainer"></div>
+      <div class="quiz-score" id="quizScore">
+        <div class="score-big" id="quizScoreBig">0/5</div>
+        <p id="quizScoreMsg"></p>
+        <button class="quiz-restart-btn" onclick="initQuiz()">🔄 Try Again</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ PAGE 5: ABOUT ═══ -->
+<div class="page" id="page-about">
+  <div class="about-wrap">
+    <div class="page-header">
+      <div class="section-eyebrow">Module 06</div>
+      <h1>About CipherGuard</h1>
+      <p>A comprehensive cybersecurity project focused on password security education and analysis.</p>
+    </div>
+
+    <div class="about-hero">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(0,229,255,.05) 0%,transparent 70%);pointer-events:none"></div>
+      <h2>Built for the Modern<br>Security Landscape</h2>
+      <p>CipherGuard was built to make enterprise-grade password security analysis accessible to everyone — for free, with complete privacy. No data is ever sent to a server.</p>
+      <div class="tech-stack">
+        <span class="tech-badge">HTML5</span>
+        <span class="tech-badge">CSS3</span>
+        <span class="tech-badge">JavaScript ES2024</span>
+        <span class="tech-badge">Web Crypto API</span>
+        <span class="tech-badge">Shannon Entropy</span>
+        <span class="tech-badge">Claude AI API</span>
+        <span class="tech-badge">100% Client-Side</span>
+      </div>
+    </div>
+
+    <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:20px;letter-spacing:-.02em">Project Modules</h2>
+    <div class="modules-grid" style="margin-bottom:48px">
+      <div class="module-card"><div class="module-icon">🏠</div><h3>Home Page</h3><p>Overview with live matrix background, attack ticker animation, feature cards, and navigation to all tools.</p></div>
+      <div class="module-card"><div class="module-icon">🔍</div><h3>Password Checker</h3><p>Real-time analysis with entropy, breach detection, pattern recognition, strength timeline, AI tips, and report export.</p></div>
+      <div class="module-card"><div class="module-icon">⚡</div><h3>Password Generator</h3><p>Secure random password generation and memorable passphrase generator with customizable options.</p></div>
+      <div class="module-card"><div class="module-icon">⚖️</div><h3>Password Comparison</h3><p>Side-by-side security analysis of two passwords with a detailed metrics table and winner declaration.</p></div>
+      <div class="module-card"><div class="module-icon">💡</div><h3>Security Tips + Quiz</h3><p>Expert best practices, dangerous password examples, and an interactive security knowledge quiz.</p></div>
+      <div class="module-card" style="border-color:rgba(124,58,237,.3)"><div class="module-icon">🔢</div><h3>Hash Visualizer</h3><p>Real-time SHA-256, SHA-1, SHA-512 & MD5 hash generation with animated avalanche effect demo and bit-level difference comparison.</p></div>
+    </div>
+
+    <div class="team-section">
+      <h3>🎓 Cybersecurity Project</h3>
+      <p>This project demonstrates real-world application of cryptographic principles, security analysis algorithms, AI APIs, and modern web development for password security.</p>
+      <div style="margin-bottom:24px;padding:20px;background:var(--bg3);border-radius:var(--r);display:inline-block;width:100%;text-align:left">
+        <div style="font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);margin-bottom:12px;font-weight:600">Key Algorithms Used</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.875rem;color:var(--text2)">
+          <div>→ Shannon Entropy Calculation</div>
+          <div>→ zxcvbn-style Pattern Analysis</div>
+          <div>→ Dictionary Attack Simulation</div>
+          <div>→ Brute-Force Time Estimation</div>
+          <div>→ Markov Chain Password Scoring</div>
+          <div>→ EFF Wordlist Passphrase Gen</div>
+          <div>→ Matrix Rain Canvas Animation</div>
+          <div>→ Claude AI Integration</div>
+        </div>
+      </div>
+      <div class="contact-links">
+        <button class="contact-link" onclick="showPage('checker')">🔍 Try Checker</button>
+        <button class="contact-link" onclick="showPage('generator')">⚡ Try Generator</button>
+        <button class="contact-link" onclick="showPage('compare')">⚖️ Compare</button>
+        <button class="contact-link" onclick="showPage('tips')">💡 Tips & Quiz</button>
+        <button class="contact-link" onclick="showPage('hash')" style="border-color:rgba(124,58,237,.4);color:var(--accent2)">🔢 Hash Visualizer</button>
+      </div>
+    </div>
+
+    <!-- Developer Profile -->
+    <div style="margin-top:48px">
+      <div class="section-eyebrow" style="margin-bottom:12px">Developer</div>
+      <h2 style="font-size:1.5rem;font-weight:700;letter-spacing:-.02em;margin-bottom:24px">Meet the Developer</h2>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:0 0 60px rgba(0,229,255,.06);position:relative">
+        <div style="height:4px;background:linear-gradient(90deg,#00e5ff,#7c3aed,#10b981)"></div>
+        <div style="position:absolute;top:0;left:0;right:0;height:200px;pointer-events:none;background:radial-gradient(ellipse 60% 100% at 50% 0%,rgba(0,229,255,.07) 0%,transparent 70%)"></div>
+        <div style="padding:40px 36px;position:relative">
+          <div style="display:flex;align-items:center;gap:24px;margin-bottom:32px;flex-wrap:wrap">
+            <div style="position:relative;flex-shrink:0">
+              <div style="width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,#00e5ff 0%,#7c3aed 60%,#10b981 100%);display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:800;color:#000;letter-spacing:-.04em;font-family:'Space Grotesk',sans-serif;box-shadow:0 0 32px rgba(0,229,255,.3)">MC</div>
+              <div style="position:absolute;bottom:4px;right:4px;width:16px;height:16px;border-radius:50%;background:#10b981;border:3px solid var(--bg2);box-shadow:0 0 8px rgba(16,185,129,.6)"></div>
+            </div>
+            <div>
+              <div style="font-size:1.6rem;font-weight:800;letter-spacing:-.03em;color:var(--text);line-height:1.1;margin-bottom:6px">CHUDASAMA MITRAJSINH</div>
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                <span style="padding:4px 12px;border-radius:100px;font-size:.75rem;font-weight:700;background:rgba(0,229,255,.12);border:1px solid rgba(0,229,255,.3);color:#00e5ff;font-family:'JetBrains Mono',monospace;letter-spacing:.06em">🛡️ CYBERSECURITY</span>
+                <span style="padding:4px 12px;border-radius:100px;font-size:.75rem;font-weight:600;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);color:#10b981">Developer</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:28px">
+            <div style="padding:18px 20px;border-radius:14px;background:var(--bg3);border:1px solid var(--border);display:flex;gap:14px;align-items:flex-start" onmouseover="this.style.borderColor='#00e5ff'" onmouseout="this.style.borderColor='var(--border)'">
+              <div style="width:38px;height:38px;border-radius:10px;flex-shrink:0;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);display:flex;align-items:center;justify-content:center;font-size:18px">🎓</div>
+              <div><div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);font-weight:600;margin-bottom:4px">College</div><div style="font-size:.875rem;font-weight:700;color:var(--text);line-height:1.4">Sir Bhavsinhji Polytechnic Institute</div></div>
+            </div>
+            <div style="padding:18px 20px;border-radius:14px;background:var(--bg3);border:1px solid var(--border);display:flex;gap:14px;align-items:flex-start" onmouseover="this.style.borderColor='#00e5ff'" onmouseout="this.style.borderColor='var(--border)'">
+              <div style="width:38px;height:38px;border-radius:10px;flex-shrink:0;background:rgba(0,229,255,.12);border:1px solid rgba(0,229,255,.25);display:flex;align-items:center;justify-content:center;font-size:18px">✉️</div>
+              <div><div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);font-weight:600;margin-bottom:4px">Email</div><a href="mailto:mitrajsinhchudasama5611@gmail.com" style="font-size:.8rem;font-weight:600;color:var(--accent);font-family:'JetBrains Mono',monospace;word-break:break-all;line-height:1.4;display:block">mitrajsinhchudasama5611@gmail.com</a></div>
+            </div>
+            <div style="padding:18px 20px;border-radius:14px;background:var(--bg3);border:1px solid var(--border);display:flex;gap:14px;align-items:flex-start" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='var(--border)'">
+              <div style="width:38px;height:38px;border-radius:10px;flex-shrink:0;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.25);display:flex;align-items:center;justify-content:center;font-size:18px">🔐</div>
+              <div><div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);font-weight:600;margin-bottom:4px">Domain</div><div style="font-size:.875rem;font-weight:700;color:#10b981">Cybersecurity</div></div>
+            </div>
+          </div>
+          <div style="margin-bottom:28px">
+            <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);font-weight:600;margin-bottom:12px">Skills & Technologies</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <span class="tech-badge">HTML5</span><span class="tech-badge">CSS3</span><span class="tech-badge">JavaScript</span><span class="tech-badge">Cybersecurity</span><span class="tech-badge">Password Security</span><span class="tech-badge">Cryptography</span><span class="tech-badge">AI Integration</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <a href="mailto:mitrajsinhchudasama5611@gmail.com" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:10px;font-size:.875rem;font-weight:700;background:linear-gradient(135deg,#00e5ff,#0099cc);color:#000;text-decoration:none;transition:all .25s;box-shadow:0 0 20px rgba(0,229,255,.25);font-family:'Space Grotesk',sans-serif" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">✉️ Contact Me</a>
+            <button onclick="showPage('checker')" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:10px;font-size:.875rem;font-weight:700;background:var(--bg3);border:1px solid var(--border);color:var(--text);cursor:pointer;transition:all .25s;font-family:'Space Grotesk',sans-serif" onmouseover="this.style.borderColor='#00e5ff';this.style.color='#00e5ff'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text)'">🔍 Try the Project</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE 7: HASH VISUALIZER ═══ -->
+<div class="page" id="page-hash">
+  <div class="hash-wrap">
+    <div class="page-header">
+      <div class="section-eyebrow">Module 07</div>
+      <h1>Hash Visualizer</h1>
+      <p>See your password transformed into cryptographic hashes in real-time. Every character you type changes the entire hash — demonstrating the avalanche effect.</p>
+    </div>
+
+    <!-- Input -->
+    <div class="hash-input-card">
+      <div class="input-group" style="margin-bottom:0">
+        <label>Enter Any Password or Text</label>
+        <div class="password-input-wrap">
+          <input type="text" class="password-input" id="hashInput"
+            placeholder="Type anything to see its hash…"
+            oninput="updateHashes(this.value)" autocomplete="off" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Hash outputs -->
+    <div class="hash-algo-grid">
+
+      <!-- SHA-256 -->
+      <div class="hash-card" id="hashCardSHA256">
+        <div class="hash-card-header">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="hash-algo-badge" style="background:rgba(0,229,255,.12);border-color:rgba(0,229,255,.3);color:var(--accent)">SHA-256</div>
+            <span class="hash-card-label">256-bit · 64 hex chars · Industry Standard</span>
+          </div>
+          <button class="hash-copy-btn" onclick="copyHash('sha256out','hashCopySHA256')" id="hashCopySHA256" title="Copy hash">📋</button>
+        </div>
+        <div class="hash-output-wrap">
+          <div class="hash-hex" id="sha256out"><span class="hash-placeholder">Hash will appear here as you type…</span></div>
+        </div>
+        <div class="hash-meta-row">
+          <div class="hash-meta-tile"><div class="hash-meta-val">256</div><div class="hash-meta-lbl">bits</div></div>
+          <div class="hash-meta-tile"><div class="hash-meta-val">64</div><div class="hash-meta-lbl">hex chars</div></div>
+          <div class="hash-meta-tile"><div class="hash-meta-val" id="sha256changed">—</div><div class="hash-meta-lbl">bits flipped</div></div>
+          <div class="hash-meta-tile"><div class="hash-meta-val">✅</div><div class="hash-meta-lbl">collision-safe</div></div>
+        </div>
+        <div class="hash-info">SHA-256 is used in Bitcoin, TLS/HTTPS, digital signatures, and password hashing (via bcrypt/PBKDF2). One character change flips ~50% of output bits.</div>
+      </div>
+
+      <!-- MD5 -->
+      <div class="hash-card" id="hashCardMD5">
+        <div class="hash-card-header">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="hash-algo-badge" style="background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:#fca5a5">MD5</div>
+            <span class="hash-card-label">128-bit · 32 hex chars · Legacy / Broken</span>
+          </div>
+          <button class="hash-copy-btn" onclick="copyHash('md5out','hashCopyMD5')" id="hashCopyMD5" title="Copy hash">📋</button>
+        </div>
+        <div class="hash-output-wrap">
+          <div class="hash-hex" id="md5out"><span class="hash-placeholder">Hash will appear here as you type…</span></div>
+        </div>
+        <div class="hash-meta-row">
+          <div class="hash-meta-tile"><div class="hash-meta-val">128</div><div class="hash-meta-lbl">bits</div></div>
+          <div class="hash-meta-tile"><div class="hash-meta-val">32</div><div class="hash-meta-lbl">hex chars</div></div>
+          <div class="hash-meta-tile"><div class="hash-meta-val" id="md5changed">—</div><div class="hash-meta-lbl">bits flipped</div></div>
+          <div class="hash-meta-tile" style="border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.06)"><div class="hash-meta-val" style="color:#fca5a5">⚠️</div><div class="hash-meta-lbl">broken!</div></div>
+        </div>
+        <div class="hash-info" style="border-color:rgba(239,68,68,.2);background:rgba(239,68,68,.05)">⚠️ MD5 is <strong style="color:#fca5a5">cryptographically broken</strong> — collisions can be generated in seconds. Never use MD5 for password storage. Shown here for education only.</div>
+      </div>
+
+      <!-- SHA-1 -->
+      <div class="hash-card" id="hashCardSHA1">
+        <div class="hash-card-header">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="hash-algo-badge" style="background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3);color:var(--warn)">SHA-1</div>
+            <span class="hash-card-label">160-bit · 40 hex chars · Deprecated</span>
+          </div>
+          <button class="hash-copy-btn" onclick="copyHash('sha1out','hashCopySHA1')" id="hashCopySHA1" title="Copy hash">📋</button>
+        </div>
+        <div class="hash-output-wrap">
+          <div class="hash-hex" id="sha1out"><span class="hash-placeholder">Hash will appear here as you type…</span></div>
+        </div>
+        <div class="hash-meta-row">
+          <div class="hash-meta-tile"><div class="hash-meta-val">160</div><div class="hash-meta-lbl">bits</div></div>
+          <div class="hash-meta-tile"><div class="hash-meta-val">40</div><div class="hash-meta-lbl">hex chars</div></div>
+          <div class="hash-meta-tile"><div class="hash-meta-val" id="sha1changed">—</div><div class="hash-meta-lbl">bits flipped</div></div>
+          <div class="hash-meta-tile" style="border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.06)"><div class="hash-meta-val" style="color:var(--warn)">⚠️</div><div class="hash-meta-lbl">deprecated</div></div>
+        </div>
+        <div class="hash-info" style="border-color:rgba(245,158,11,.2);background:rgba(245,158,11,.05)">SHA-1 is deprecated since 2017 after Google demonstrated a practical collision attack. No longer safe for security uses but still used in Git version control.</div>
+      </div>
+
+      <!-- SHA-512 -->
+      <div class="hash-card" id="hashCardSHA512">
+        <div class="hash-card-header">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="hash-algo-badge" style="background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.3);color:var(--accent3)">SHA-512</div>
+            <span class="hash-card-label">512-bit · 128 hex chars · Maximum Security</span>
+          </div>
+          <button class="hash-copy-btn" onclick="copyHash('sha512out','hashCopySHA512')" id="hashCopySHA512" title="Copy hash">📋</button>
+        </div>
+        <div class="hash-output-wrap">
+          <div class="hash-hex" id="sha512out"><span class="hash-placeholder">Hash will appear here as you type…</span></div>
+        </div>
+        <div class="hash-meta-row">
+          <div class="hash-meta-tile"><div class="hash-meta-val">512</div><div class="hash-meta-lbl">bits</div></div>
+          <div class="hash-meta-tile"><div class="hash-meta-val">128</div><div class="hash-meta-lbl">hex chars</div></div>
+          <div class="hash-meta-tile"><div class="hash-meta-val" id="sha512changed">—</div><div class="hash-meta-lbl">bits flipped</div></div>
+          <div class="hash-meta-tile"><div class="hash-meta-val">🔒</div><div class="hash-meta-lbl">max security</div></div>
+        </div>
+        <div class="hash-info">SHA-512 provides the highest security in the SHA-2 family. Used in Unix/Linux password hashing, high-security certificates, and financial applications.</div>
+      </div>
+
+    </div>
+
+    <!-- Avalanche Demo -->
+    <div class="avalanche-section">
+      <div class="section-eyebrow" style="margin-bottom:12px">Avalanche Effect Demo</div>
+      <h2 style="font-size:1.4rem;font-weight:700;letter-spacing:-.02em;margin-bottom:8px">One Change = Everything Changes</h2>
+      <p style="color:var(--text2);font-size:.9rem;margin-bottom:24px;max-width:560px">Compare SHA-256 hashes of two nearly-identical inputs. Notice how a single character difference completely transforms the output — this is the avalanche effect, a core property of secure hash functions.</p>
+      <div class="avalanche-grid">
+        <div class="avalanche-input-wrap">
+          <label class="avalanche-label">Input A</label>
+          <input type="text" class="password-input" id="avalA" placeholder="Type here…" oninput="updateAvalanche()" autocomplete="off" style="font-size:.95rem;padding:12px 16px" />
+          <div class="avalanche-hash-out" id="avalHashA"><span style="color:var(--text3)">—</span></div>
+        </div>
+        <div class="avalanche-vs">VS</div>
+        <div class="avalanche-input-wrap">
+          <label class="avalanche-label">Input B</label>
+          <input type="text" class="password-input" id="avalB" placeholder="Change one char…" oninput="updateAvalanche()" autocomplete="off" style="font-size:.95rem;padding:12px 16px" />
+          <div class="avalanche-hash-out" id="avalHashB"><span style="color:var(--text3)">—</span></div>
+        </div>
+      </div>
+      <div class="avalanche-diff" id="avalDiff">
+        <div style="color:var(--text3);font-size:.875rem;text-align:center;padding:16px">Enter text in both fields to see the difference</div>
+      </div>
+    </div>
+
+    <!-- Educational section -->
+    <div class="hash-edu-grid">
+      <div class="hash-edu-card">
+        <div style="font-size:1.5rem;margin-bottom:10px">🔁</div>
+        <h3>One-Way Function</h3>
+        <p>Hashes are irreversible — you can go from password → hash in milliseconds, but hash → password is computationally impossible. This is why websites store hashes, not passwords.</p>
+      </div>
+      <div class="hash-edu-card">
+        <div style="font-size:1.5rem;margin-bottom:10px">❄️</div>
+        <h3>Deterministic</h3>
+        <p>The same input always produces the same hash output. "hello" → the same 64-char SHA-256 every single time, anywhere in the world, on any machine.</p>
+      </div>
+      <div class="hash-edu-card">
+        <div style="font-size:1.5rem;margin-bottom:10px">💥</div>
+        <h3>Avalanche Effect</h3>
+        <p>Changing even a single bit of input flips approximately 50% of output bits. This makes hashes unpredictable and prevents attackers from guessing nearby inputs.</p>
+      </div>
+      <div class="hash-edu-card">
+        <div style="font-size:1.5rem;margin-bottom:10px">🧂</div>
+        <h3>Salting Passwords</h3>
+        <p>Modern systems add a unique random "salt" before hashing to prevent rainbow table attacks. Even if two users have the same password, their hashes will differ.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- DEVELOPER PROFILE FOOTER -->
+<div id="devProfile" style="position:fixed;bottom:0;left:0;right:0;z-index:998;background:rgba(10,13,20,0.97);backdrop-filter:blur(20px);border-top:1px solid #1e2a40;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+  <div style="display:flex;align-items:center;gap:14px">
+    <div style="width:40px;height:40px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,#00e5ff,#7c3aed);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:#000">MC</div>
+    <div>
+      <div style="font-size:.85rem;font-weight:700;color:#e2e8f0">CHUDASAMA MITRAJSINH</div>
+      <div style="font-size:.72rem;color:#94a3b8;margin-top:1px">Sir Bhavsinhji Polytechnic Institute</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+    <span style="padding:3px 10px;border-radius:100px;font-size:.72rem;font-weight:700;background:rgba(0,229,255,.12);border:1px solid rgba(0,229,255,.25);color:#00e5ff;font-family:'JetBrains Mono',monospace">Cybersecurity</span>
+    <a href="mailto:mitrajsinhchudasama5611@gmail.com" style="display:flex;align-items:center;gap:6px;font-size:.78rem;color:#94a3b8;text-decoration:none;font-family:'JetBrains Mono',monospace" onmouseover="this.style.color='#00e5ff'" onmouseout="this.style.color='#94a3b8'">✉️ mitrajsinhchudasama5611@gmail.com</a>
+  </div>
+</div>
+
+
+<script src="script.js"></script>
+</body>
+</html>
